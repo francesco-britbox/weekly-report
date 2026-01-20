@@ -1,0 +1,25 @@
+# docker-compose.dev.yml
+version: '3.8'
+
+services:
+  weekly-report-viewer:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: weekly-report-viewer-dev
+    ports:
+      - "3001:3001"
+    environment:
+      - DATABASE_URL=${DATABASE_URL:-postgresql://vendorapp:vendorapp_secret_2025@host.docker.internal:5432/presence_manager}
+      - NODE_ENV=development
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/.next
+    networks:
+      - vendor-network
+
+networks:
+  vendor-network:
+    external: true
+    name: vendor-manager_default
