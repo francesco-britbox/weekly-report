@@ -29,6 +29,17 @@ export function RaidLog({ items }: RaidLogProps) {
 
       {/* Table */}
       <div className="w-full">
+        {/* Column Headers */}
+        {filteredItems.length > 0 && (
+          <div className="raid-row grid grid-cols-[90px_150px_1fr_70px_110px_40px] gap-4 py-2 mb-2 border-b border-border-color items-center">
+            <div className="text-[10px] font-semibold uppercase tracking-wide text-text-muted">Type</div>
+            <div className="text-[10px] font-semibold uppercase tracking-wide text-text-muted">Area</div>
+            <div className="text-[10px] font-semibold uppercase tracking-wide text-text-muted">Description</div>
+            <div className="text-[10px] font-semibold uppercase tracking-wide text-text-muted">Impact</div>
+            <div className="text-[10px] font-semibold uppercase tracking-wide text-text-muted">Owner</div>
+            <div className="text-[10px] font-semibold uppercase tracking-wide text-text-muted">Status</div>
+          </div>
+        )}
         {filteredItems.map((item, index) => (
           <RaidRow key={item.id} item={item} delay={index * 0.05} />
         ))}

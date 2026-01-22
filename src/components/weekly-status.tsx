@@ -9,7 +9,7 @@ interface WeeklyStatusProps {
 export function WeeklyStatus({ achievements, focus }: WeeklyStatusProps) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-      <StatusCard title="Achievements This Week">
+      <StatusCard title="Achievements This Week" showLegend>
         {achievements.map((item, index) => (
           <StatusItem
             key={item.id}
@@ -43,15 +43,36 @@ export function WeeklyStatus({ achievements, focus }: WeeklyStatusProps) {
 interface StatusCardProps {
   title: string
   children: React.ReactNode
+  showLegend?: boolean
 }
 
-function StatusCard({ title, children }: StatusCardProps) {
+function StatusCard({ title, children, showLegend = false }: StatusCardProps) {
   return (
     <div className="bg-bg-card border border-border-color rounded-lg p-6 h-full">
       <div className="flex justify-between items-center mb-4 pb-3 border-b border-border-color">
         <h3 className="text-[15px] font-semibold text-text-primary">{title}</h3>
+        {showLegend && <StatusLegend />}
       </div>
       <ul className="list-none">{children}</ul>
+    </div>
+  )
+}
+
+function StatusLegend() {
+  return (
+    <div className="flex items-center gap-3">
+      <div className="flex items-center gap-1">
+        <span className="w-3 h-3 rounded-full bg-rag-green-dim flex items-center justify-center text-[8px] text-rag-green">✓</span>
+        <span className="text-[10px] text-text-muted">Done</span>
+      </div>
+      <div className="flex items-center gap-1">
+        <span className="w-3 h-3 rounded-full bg-rag-amber-dim flex items-center justify-center text-[8px] text-rag-amber">○</span>
+        <span className="text-[10px] text-text-muted">In Progress</span>
+      </div>
+      <div className="flex items-center gap-1">
+        <span className="w-3 h-3 rounded-full bg-accent-cyan-dim flex items-center justify-center text-[8px] text-accent-cyan">→</span>
+        <span className="text-[10px] text-text-muted">Pending</span>
+      </div>
     </div>
   )
 }
