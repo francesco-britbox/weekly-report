@@ -75,7 +75,7 @@ export function DeliveryTimeline({ timeline, onMilestoneClick }: DeliveryTimelin
       >
         <div className="relative px-10 pb-4">
         {/* Timeline Track */}
-        <div className="absolute top-11 left-10 right-10 h-[3px] bg-timeline-line rounded-sm">
+        <div className="absolute top-[72px] left-10 right-10 h-[3px] bg-timeline-line rounded-sm">
           <div
             className="absolute top-0 left-0 h-full bg-rag-green rounded-sm animate-[trackFill_1s_ease_forwards_0.3s]"
             style={{ '--progress': `${progress}%` } as React.CSSProperties}
@@ -121,8 +121,11 @@ function TimelineNode({ milestone, isCurrent, delay, onClick }: TimelineNodeProp
       )}
       style={{ animationDelay: `${delay}s` }}
     >
+      {/* Status Tag */}
+      <StatusTag status={milestone.status} />
+
       {/* Date */}
-      <div className="text-[13px] font-semibold text-text-primary mb-3 h-5">
+      <div className="text-[13px] font-semibold text-text-primary mb-4 h-5">
         {milestone.date}
       </div>
 
@@ -195,5 +198,32 @@ function NodeCircle({ status }: NodeCircleProps) {
         statusStyles[status]
       )}
     />
+  )
+}
+
+interface StatusTagProps {
+  status: TimelineStatus
+}
+
+function StatusTag({ status }: StatusTagProps) {
+  const statusConfig: Record<TimelineStatus, { label: string; bg: string; text: string }> = {
+    completed: { label: 'Completed', bg: 'bg-rag-green/20', text: 'text-rag-green' },
+    in_progress: { label: 'In Progress', bg: 'bg-rag-amber/20', text: 'text-rag-amber' },
+    upcoming: { label: 'Upcoming', bg: 'bg-rag-green/10', text: 'text-rag-green' },
+    tbc: { label: 'TBC', bg: 'bg-timeline-line/30', text: 'text-text-muted' },
+  }
+
+  const { label, bg, text } = statusConfig[status]
+
+  return (
+    <span
+      className={cn(
+        'px-2 py-0.5 rounded-full text-[9px] font-semibold uppercase tracking-wide mb-1.5',
+        bg,
+        text
+      )}
+    >
+      {label}
+    </span>
   )
 }
