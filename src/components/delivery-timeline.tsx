@@ -148,11 +148,15 @@ function TimelineNode({ milestone, isCurrent, delay, onClick }: TimelineNodeProp
           'text-[11px] font-semibold underline mb-1',
           isCurrent ? 'text-rag-green' : 'text-accent-cyan'
         )}>
-          Prod Release
-        </div>
-        <div className="text-[11px] text-text-secondary leading-snug">
           {milestone.title}
         </div>
+        {milestone.features.length > 0 && (
+          <ul className="text-[11px] text-text-secondary leading-snug list-none space-y-0.5">
+            {milestone.features.map((feature, idx) => (
+              <li key={idx}>• {feature}</li>
+            ))}
+          </ul>
+        )}
         <div className="flex flex-wrap gap-1 mt-2">
           {milestone.platforms.slice(0, 3).map((platform) => (
             <span
