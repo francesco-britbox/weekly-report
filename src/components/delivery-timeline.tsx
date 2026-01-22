@@ -1,5 +1,6 @@
 'use client'
 
+import { useRef, useState, useEffect, useCallback } from 'react'
 import { cn } from '@/lib/utils'
 import type { TimelineMilestone, TimelineStatus } from '@/types'
 
@@ -9,6 +10,35 @@ interface DeliveryTimelineProps {
 }
 
 export function DeliveryTimeline({ timeline, onMilestoneClick }: DeliveryTimelineProps) {
+  const scrollContainerRef = useRef<HTMLDivElement>(null)
+  const [canScrollLeft, setCanScrollLeft] = useState(false)
+  const [canScrollRight, setCanScrollRight] = useState(false)
+
+  // Check scroll position and update fade indicators
+  const updateScrollIndicators = useCallback(() => {
+    const container = scrollContainerRef.current
+    if (!container) return
+
+    const { scrollLeft, scrollWidth, clientWidth } = container
+    setCanScrollLeft(scrollLeft > 0)
+    setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 1)
+  }, [])
+
+  // Initialize and listen for scroll/resize
+  useEffect(() => {
+    const container = scrollContainerRef.current
+    if (!container) return
+
+    updateScrollIndicators()
+    container.addEventListener('scroll', updateScrollIndicators)
+    window.addEventListener('resize', updateScrollIndicators)
+
+    return () => {
+      container.removeEventListener('scroll', updateScrollIndicators)
+      window.removeEventListener('resize', updateScrollIndicators)
+    }
+  }, [updateScrollIndicators, timeline])
+
   // Calculate progress percentage
   const completedCount = timeline.filter((m) => m.status === 'completed').length
   const progress = Math.max(5, (completedCount / timeline.length) * 100)
@@ -17,8 +47,33 @@ export function DeliveryTimeline({ timeline, onMilestoneClick }: DeliveryTimelin
   const currentIndex = timeline.findIndex((m) => m.status !== 'completed')
 
   return (
-    <div className="bg-bg-card border border-border-color rounded-lg p-8 overflow-x-auto">
-      <div className="relative px-10 pb-4">
+    <div className="bg-bg-card border border-border-color rounded-lg p-8 relative">
+      {/* Left fade indicator */}
+      <div
+        className={cn(
+          'absolute left-0 top-0 bottom-0 w-16 pointer-events-none z-10 rounded-l-lg',
+          'bg-gradient-to-r from-bg-card to-transparent',
+          'transition-opacity duration-300',
+          canScrollLeft ? 'opacity-100' : 'opacity-0'
+        )}
+      />
+
+      {/* Right fade indicator */}
+      <div
+        className={cn(
+          'absolute right-0 top-0 bottom-0 w-16 pointer-events-none z-10 rounded-r-lg',
+          'bg-gradient-to-l from-bg-card to-transparent',
+          'transition-opacity duration-300',
+          canScrollRight ? 'opacity-100' : 'opacity-0'
+        )}
+      />
+
+      {/* Scrollable container with custom scrollbar */}
+      <div
+        ref={scrollContainerRef}
+        className="timeline-scroll-container overflow-x-auto"
+      >
+        <div className="relative px-10 pb-4">
         {/* Timeline Track */}
         <div className="absolute top-11 left-10 right-10 h-[3px] bg-timeline-line rounded-sm">
           <div
@@ -41,6 +96,7 @@ export function DeliveryTimeline({ timeline, onMilestoneClick }: DeliveryTimelin
               onClick={() => onMilestoneClick(milestone)}
             />
           ))}
+        </div>
         </div>
       </div>
     </div>

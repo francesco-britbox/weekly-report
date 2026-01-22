@@ -8,7 +8,7 @@ interface WeeklyStatusProps {
 
 export function WeeklyStatus({ achievements, focus }: WeeklyStatusProps) {
   return (
-    <div className="grid grid-cols-2 gap-5 md:grid-cols-1">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
       <StatusCard title="Achievements This Week">
         {achievements.map((item, index) => (
           <StatusItem
@@ -47,7 +47,7 @@ interface StatusCardProps {
 
 function StatusCard({ title, children }: StatusCardProps) {
   return (
-    <div className="bg-bg-card border border-border-color rounded-lg p-6">
+    <div className="bg-bg-card border border-border-color rounded-lg p-6 h-full">
       <div className="flex justify-between items-center mb-4 pb-3 border-b border-border-color">
         <h3 className="text-[15px] font-semibold text-text-primary">{title}</h3>
       </div>

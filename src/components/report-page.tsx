@@ -102,66 +102,74 @@ export function ReportPage() {
 
         {/* Content Wrapper */}
         <div className="transition-opacity duration-200">
-          {/* Delivery Timeline Section */}
-          <Section
-            title="Delivery Timeline"
-            headerContent={
-              weeksData && (
-                <WeekNavigation
-                  monthLabel={monthLabel}
-                  weeks={weeksData.weeks}
-                  selectedWeek={selectedWeekStart}
-                  onPrevMonth={goToPrevMonth}
-                  onNextMonth={goToNextMonth}
-                  onWeekSelect={setSelectedWeekStart}
-                  onQuickFilter={applyQuickFilter}
-                  activeQuickFilter={activeQuickFilter}
+          {/* Delivery Timeline Section - only render if data exists */}
+          {(reportLoading || !currentVendor || currentVendor.timeline.length > 0) && (
+            <Section
+              title="Delivery Timeline"
+              headerContent={
+                weeksData && (
+                  <WeekNavigation
+                    monthLabel={monthLabel}
+                    weeks={weeksData.weeks}
+                    selectedWeek={selectedWeekStart}
+                    onPrevMonth={goToPrevMonth}
+                    onNextMonth={goToNextMonth}
+                    onWeekSelect={setSelectedWeekStart}
+                    onQuickFilter={applyQuickFilter}
+                    activeQuickFilter={activeQuickFilter}
+                  />
+                )
+              }
+            >
+              {reportLoading || !currentVendor ? (
+                <TimelineSkeleton />
+              ) : (
+                <DeliveryTimeline
+                  timeline={currentVendor.timeline}
+                  onMilestoneClick={openMilestoneModal}
                 />
-              )
-            }
-          >
-            {reportLoading || !currentVendor ? (
-              <TimelineSkeleton />
-            ) : (
-              <DeliveryTimeline
-                timeline={currentVendor.timeline}
-                onMilestoneClick={openMilestoneModal}
-              />
-            )}
-          </Section>
+              )}
+            </Section>
+          )}
 
-          {/* Weekly Status Section */}
-          <Section title="Weekly Status" delay={0.1}>
-            {reportLoading || !currentVendor ? (
-              <div className="grid grid-cols-2 gap-5 md:grid-cols-1">
-                <StatusCardSkeleton />
-                <StatusCardSkeleton />
-              </div>
-            ) : (
-              <WeeklyStatus
-                achievements={currentVendor.achievements}
-                focus={currentVendor.focus}
-              />
-            )}
-          </Section>
+          {/* Weekly Status Section - only render if data exists */}
+          {(reportLoading || !currentVendor || currentVendor.achievements.length > 0 || currentVendor.focus.length > 0) && (
+            <Section title="Weekly Status" delay={0.1}>
+              {reportLoading || !currentVendor ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                  <StatusCardSkeleton />
+                  <StatusCardSkeleton />
+                </div>
+              ) : (
+                <WeeklyStatus
+                  achievements={currentVendor.achievements}
+                  focus={currentVendor.focus}
+                />
+              )}
+            </Section>
+          )}
 
-          {/* RAID Log Section */}
-          <Section title="RAID Log" delay={0.2}>
-            {reportLoading || !currentVendor ? (
-              <RaidLogSkeleton />
-            ) : (
-              <RaidLog items={currentVendor.raid} />
-            )}
-          </Section>
+          {/* RAID Log Section - only render if data exists */}
+          {(reportLoading || !currentVendor || currentVendor.raid.length > 0) && (
+            <Section title="RAID Log" delay={0.2}>
+              {reportLoading || !currentVendor ? (
+                <RaidLogSkeleton />
+              ) : (
+                <RaidLog items={currentVendor.raid} />
+              )}
+            </Section>
+          )}
 
-          {/* Resources Section */}
-          <Section title="Resources" delay={0.3}>
-            {reportLoading || !currentVendor ? (
-              <ResourcesSkeleton />
-            ) : (
-              <Resources resources={currentVendor.resources} />
-            )}
-          </Section>
+          {/* Resources Section - only render if data exists */}
+          {(reportLoading || !currentVendor || currentVendor.resources.length > 0) && (
+            <Section title="Resources" delay={0.3}>
+              {reportLoading || !currentVendor ? (
+                <ResourcesSkeleton />
+              ) : (
+                <Resources resources={currentVendor.resources} />
+              )}
+            </Section>
+          )}
         </div>
       </main>
 

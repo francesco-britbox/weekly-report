@@ -38,6 +38,7 @@ model Vendor {
   location               String?
   serviceDescription     String?
   status                 VendorStatus            @default(active)
+  includeInWeeklyReports Boolean                 @default(true)
   createdAt              DateTime                @default(now())
   updatedAt              DateTime
   contractEndDate        DateTime?               @db.Date

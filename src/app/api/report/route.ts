@@ -28,10 +28,11 @@ export async function GET(request: NextRequest) {
     const weekStartStr = formatDateString(weekStart)
     const reportDate = getFridayOfWeek(weekStart)
 
-    // Fetch all active vendors with their data
+    // Fetch all active vendors included in weekly reports with their data
     const vendors = await prisma.vendor.findMany({
       where: {
         status: VendorStatus.active,
+        includeInWeeklyReports: true,
       },
       include: {
         deliveryManagerVendors: {
