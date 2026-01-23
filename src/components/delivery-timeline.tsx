@@ -185,8 +185,8 @@ interface NodeCircleProps {
 function NodeCircle({ status }: NodeCircleProps) {
   const statusStyles: Record<TimelineStatus, string> = {
     completed: 'bg-rag-green shadow-[0_0_0_3px_var(--rag-green)]',
-    in_progress: 'bg-rag-amber shadow-[0_0_0_3px_var(--rag-amber)]',
-    upcoming: 'bg-bg-card border-4 border-rag-green shadow-none',
+    in_progress: 'bg-purple-500 shadow-[0_0_0_3px_#a855f7]',
+    upcoming: 'bg-bg-card border-4 border-blue-400 shadow-none',
     tbc: 'bg-bg-card border-[3px] border-timeline-line shadow-none',
   }
 
@@ -208,8 +208,8 @@ interface StatusTagProps {
 function StatusTag({ status }: StatusTagProps) {
   const statusConfig: Record<TimelineStatus, { label: string; bg: string; text: string }> = {
     completed: { label: 'Completed', bg: 'bg-rag-green/20', text: 'text-rag-green' },
-    in_progress: { label: 'In Progress', bg: 'bg-rag-amber/20', text: 'text-rag-amber' },
-    upcoming: { label: 'Upcoming', bg: 'bg-rag-green/10', text: 'text-rag-green' },
+    in_progress: { label: 'In Progress', bg: 'bg-purple-500/20', text: 'text-purple-500' },
+    upcoming: { label: 'Upcoming', bg: 'bg-blue-400/20', text: 'text-blue-400' },
     tbc: { label: 'TBC', bg: 'bg-timeline-line/30', text: 'text-text-muted' },
   }
 
