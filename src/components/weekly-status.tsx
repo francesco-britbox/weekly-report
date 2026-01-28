@@ -66,11 +66,11 @@ function StatusLegend() {
         <span className="text-[10px] text-text-muted">Done</span>
       </div>
       <div className="flex items-center gap-1">
-        <span className="w-3 h-3 rounded-full bg-rag-amber-dim flex items-center justify-center text-[8px] text-rag-amber">○</span>
+        <span className="w-3 h-3 rounded-full bg-purple-500/20 flex items-center justify-center text-[8px] text-purple-500">○</span>
         <span className="text-[10px] text-text-muted">In Progress</span>
       </div>
       <div className="flex items-center gap-1">
-        <span className="w-3 h-3 rounded-full bg-accent-cyan-dim flex items-center justify-center text-[8px] text-accent-cyan">→</span>
+        <span className="w-3 h-3 rounded-full bg-blue-400/20 flex items-center justify-center text-[8px] text-blue-400">→</span>
         <span className="text-[10px] text-text-muted">Pending</span>
       </div>
     </div>
@@ -108,13 +108,13 @@ function StatusIcon({ status }: StatusIconProps) {
       icon: '✓',
     },
     in_progress: {
-      bg: 'bg-rag-amber-dim',
-      text: 'text-rag-amber',
+      bg: 'bg-purple-500/20',
+      text: 'text-purple-500',
       icon: '○',
     },
     pending: {
-      bg: 'bg-accent-cyan-dim',
-      text: 'text-accent-cyan',
+      bg: 'bg-blue-400/20',
+      text: 'text-blue-400',
       icon: '→',
     },
   }[status ?? 'pending']
