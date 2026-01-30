@@ -1,7 +1,7 @@
 'use client'
 
 import useSWR from 'swr'
-import type { ReportData, WeeksResponse, VendorData } from '@/types'
+import type { ReportData, WeeksResponse, VendorData, FeedbackResponse } from '@/types'
 
 const fetcher = (url: string) =>
   fetch(url).then((res) => {
@@ -44,4 +44,16 @@ export function useWeeks(year: number, month: number) {
       dedupingInterval: 86400000, // 24 hours - weeks don't change
     }
   )
+}
+
+export function useFeedback(vendorId: string | null, weekStart?: string) {
+  const url =
+    vendorId && weekStart
+      ? `/api/feedback?vendor_id=${vendorId}&week_start=${weekStart}`
+      : null
+
+  return useSWR<FeedbackResponse>(url, fetcher, {
+    revalidateOnFocus: false,
+    revalidateOnReconnect: true,
+  })
 }

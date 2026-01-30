@@ -104,3 +104,20 @@ export interface WeeksResponse {
   month: number
   weeks: WeekOption[]
 }
+
+// Feedback item
+export interface Feedback {
+  id: string
+  vendorId: string
+  weekStart: string
+  userId: string
+  userName: string
+  feedbackHtml: string
+  createdAt: string
+  updatedAt: string
+}
+
+// API response for feedback (now returns array of all feedback for vendor+week)
+export interface FeedbackResponse {
+  feedback: Feedback[]
+}

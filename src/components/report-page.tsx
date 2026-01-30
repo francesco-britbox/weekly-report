@@ -14,6 +14,7 @@ import {
   MilestoneModal,
   Section,
 } from '@/components'
+import { FeedbackSection } from './feedback-section'
 import {
   VendorTabsSkeleton,
   TimelineSkeleton,
@@ -169,6 +170,14 @@ export function ReportPage() {
                 <Resources resources={currentVendor.resources} />
               )}
             </Section>
+          )}
+
+          {/* Product Feedback Section - always available */}
+          {!reportLoading && currentVendor && selectedWeekStart && (
+            <FeedbackSection
+              vendorId={currentVendor.id}
+              weekStart={selectedWeekStart}
+            />
           )}
         </div>
       </main>

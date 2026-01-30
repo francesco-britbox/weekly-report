@@ -54,6 +54,7 @@ model Vendor {
   vendor_tags            vendor_tags[]
   timeline               VendorTimeline[]
   weeklyReports          WeeklyReport[]
+  feedback               WeeklyReportFeedback[]
 
   @@index([name])
   @@index([status])
@@ -171,6 +172,22 @@ model VendorResource {
 
   @@index([vendorId])
   @@map("vendor_resources")
+}
+
+model WeeklyReportFeedback {
+  id           String   @id @default(cuid())
+  vendorId     String   @map("vendor_id")
+  weekStart    DateTime @map("week_start") @db.Date
+  userId       String   @map("user_id") @db.VarChar(255)
+  userName     String   @map("user_name") @db.VarChar(255)
+  feedbackHtml String   @map("feedback_html") @db.Text
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+  vendor       Vendor   @relation(fields: [vendorId], references: [id], onDelete: Cascade)
+
+  @@unique([vendorId, weekStart, userId])
+  @@index([vendorId, weekStart])
+  @@map("weekly_report_feedback")
 }
 
 model ai_api_configs {
